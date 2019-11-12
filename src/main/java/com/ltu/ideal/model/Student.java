@@ -1,6 +1,7 @@
 package com.ltu.ideal.model;
 
 import lombok.*;
+import org.springframework.stereotype.Indexed;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
@@ -35,7 +36,7 @@ public class Student {
 
     @Basic
     @NotBlank(message = "personnummer is required")
-    @Column(name = "personnummer")
+    @Column(name = "personnummer", unique = true)
     private String personnummer;
 
     @Basic

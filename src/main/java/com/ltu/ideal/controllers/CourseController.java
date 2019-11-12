@@ -62,6 +62,22 @@ public class CourseController {
         return null;
     }
 
+    //TODO Modify to not return null but instead a 404
+    @GetMapping("/pnr/{courseCode}/{ideal}")
+    public String getPnr(
+            @PathVariable(value = "courseCode") String courseCode,
+            @PathVariable(value = "ideal") String ideal){
+        Optional<Student> optionalStudent;
+        Course course = courseRepository.findByCourseCode(courseCode);
+        List<Student> studentList = course.getStudents();
+        for (Student s : studentList) {
+            if (s.getIdeal().equals(ideal)) {
+                return s.getPersonnummer();
+            }
+        }
+        return null;
+    }
+
     @DeleteMapping("/courses/{id}")
     public void deleteCourse(@PathVariable(value = "id") Long courseId){
         Optional<Course> c = courseRepository.findById(courseId);

@@ -29,7 +29,7 @@ public class Course {
     private String name;
 
     @Basic
-    @Column(name = "course_code")
+    @Column(name = "course_code", unique = true)
     private String courseCode;
 
     @ManyToMany(fetch = FetchType.EAGER)
