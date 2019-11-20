@@ -1,4 +1,4 @@
-package com.ltu.ideal.model;
+package com.ltu.ladok.model;
 
 import lombok.*;
 import org.springframework.stereotype.Indexed;
