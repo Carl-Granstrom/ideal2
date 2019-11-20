@@ -1,7 +1,9 @@
 package com.ltu.ideal.test;
 
 import com.ltu.ideal.model.Course;
+import com.ltu.ideal.model.CourseInstance;
 import com.ltu.ideal.model.Student;
+import com.ltu.ideal.repository.CourseInstanceRepository;
 import com.ltu.ideal.repository.CourseRepository;
 import com.ltu.ideal.repository.StudentRepository;
 import org.junit.Test;
@@ -13,9 +15,7 @@ import org.springframework.boot.test.autoconfigure.web.reactive.AutoConfigureWeb
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 /**
  * Uses Spring test framework and junit 4 tests to add test data to the database and to test the REST-API.
@@ -34,10 +34,15 @@ public class DBLoader {
     @Autowired
     CourseRepository courseRepository;
 
+    @Autowired
+    CourseInstanceRepository courseInstanceRepository;
+
     @Test
     public void testExampledata() {
+        //Carl Granström uses a static ideal for easier testing
         Student student1 = studentRepository.save(
                 new Student("Carl", "Granstrom", "198309290313", "cargra5"));
+        //Students 2-4 uses randomly generated ideal numbers because... I can.
         Student student2 = studentRepository.save(
                 new Student("Hulk", "Hogan", "200712220417"));
         Student student3 = studentRepository.save(
@@ -54,12 +59,26 @@ public class DBLoader {
         List<Student> students = new ArrayList<>();
         students.add(student1);
         students.add(student2);
-        Course c1 = new Course("Databaser 2", "D0005N", students);
+        CourseInstance ci1 = new CourseInstance("LTU-12345", "HT18", students);
+        courseInstanceRepository.save(ci1);
+
+        List<Student> students2 = new ArrayList<>();
+        students2.add(student1);
+        students2.add(student2);
+        students2.add(student3);
+        students2.add(student4);
+        CourseInstance ci2 = new CourseInstance("LTU-12346", "VT19", students);
+        courseInstanceRepository.save(ci2);
+
+        Set<CourseInstance> courseInstances = new HashSet<>();
+        courseInstances.add(ci1);
+        courseInstances.add(ci2);
+
+        Course c1 = new Course("Databaser 2", "D0005N", courseInstances);
         courseRepository.save(c1);
-        students.add(student3);
-        students.add(student4);
-        Course c2 = new Course("Data Mining", "D0025E", students);
+        Course c2 = new Course("Data Mining", "D0025E", new HashSet<CourseInstance>());
         courseRepository.save(c2);
+
     }
 
 }

@@ -9,6 +9,7 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 @Entity
@@ -32,16 +33,17 @@ public class Course {
     @Column(name = "course_code", unique = true)
     private String courseCode;
 
-    @ManyToMany(fetch = FetchType.EAGER)
-    private List<Student> students;
+    @OneToMany(fetch = FetchType.EAGER)
+    @JoinColumn(name = "course_fk")
+    private Set<CourseInstance> courseInstances;
 
     @NotNull
     private LocalDate createdAt;
 
-    public Course(String name, String courseCode, List<Student> students){
+    public Course(String name, String courseCode, Set<CourseInstance> courseInstances){
         this.name = name;
         this.courseCode = courseCode;
-        this.students = students;
+        this.courseInstances = courseInstances;
     }
 
     // ********************** Accessor Methods ********************** //
